@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8570444391435057310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8404684540708653325}
+  m_Layer: 0
+  m_Name: ShootPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8404684540708653325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8570444391435057310}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6483892222407871096}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2256957326101195195
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230607, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_Name
+      value: SpaceShipModule - Rocket
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+--- !u!1 &6483892222407871092 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5091665885596230607, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+  m_PrefabInstance: {fileID: 2256957326101195195}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4982904507781698827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6483892222407871092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c7d786d27f49d44959757d30728bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 3728464426976364178, guid: 000d71f84e8142c4296e46185c29c6e2, type: 3}
+  explosionPrefab: {fileID: 7893043826627764728, guid: b3b3ba9e34b67a64cad7f0c58fceec3e, type: 3}
+  shootPosition: {fileID: 8404684540708653325}
+  range: 10
+  chanceToFire: 5
+  timeBetweenFires: 1
+  timer: 0
+--- !u!4 &6483892222407871096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+  m_PrefabInstance: {fileID: 2256957326101195195}
+  m_PrefabAsset: {fileID: 0}
