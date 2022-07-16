@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShieldModule : MonoBehaviour
 {
+  [SerializeField]
+  Animator animator;
 
   public float cooldown = 10f;
   float timer = 0;
@@ -30,7 +32,7 @@ public class ShieldModule : MonoBehaviour
         Projectile projectile = other.gameObject.GetComponent<Projectile>();
         if (projectile)
         {
-          Debug.Log("Shielded a projectile");
+          animator.SetTrigger("Shield");
           timer = cooldown;
           projectile.Shield();
         }

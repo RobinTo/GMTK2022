@@ -38,6 +38,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 78b5dd4c4e943c6468d77a0b58c85679, type: 3}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: title
+      value: Rocket Module
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: description
+      value: Has a chance to fire a rocket at nearby enemies.
+      objectReference: {fileID: 0}
     - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -107,11 +119,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3728464426976364178, guid: 000d71f84e8142c4296e46185c29c6e2, type: 3}
   explosionPrefab: {fileID: 7893043826627764728, guid: b3b3ba9e34b67a64cad7f0c58fceec3e, type: 3}
+  explosionShieldedPrefab: {fileID: 0}
   shootPosition: {fileID: 8404684540708653325}
   range: 10
   chanceToFire: 5
   timeBetweenFires: 1
   timer: 0
+  baseUpgradeCosts:
+  - costs:
+    - resource: 0
+      amount: 25
+  - costs:
+    - resource: 0
+      amount: 50
+    - resource: 1
+      amount: 10
+  - costs:
+    - resource: 0
+      amount: 100
+    - resource: 1
+      amount: 50
+    - resource: 2
+      amount: 10
+  - costs:
+    - resource: 0
+      amount: 150
+    - resource: 1
+      amount: 75
+    - resource: 2
+      amount: 50
+    - resource: 3
+      amount: 3
 --- !u!4 &6483892222407871096 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}

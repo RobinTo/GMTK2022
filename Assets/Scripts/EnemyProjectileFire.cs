@@ -8,7 +8,10 @@ public class EnemyProjectileFire : MonoBehaviour
   Projectile projectilePrefab;
   [SerializeField]
   GameObject explosionPrefab;
-
+  [SerializeField]
+  GameObject explosionShieldedPrefab;
+  [SerializeField]
+  int damage = 1;
   [SerializeField]
   float timeBetweenFire = 0.5f;
   float timer = 0;
@@ -31,26 +34,27 @@ public class EnemyProjectileFire : MonoBehaviour
       // Spawn projectile at random spawn position
       int randomIndex = Random.Range(0, spawnPositions.Count);
       Projectile projectile = ObjectPooler.instance.GetPooledObject(projectilePrefab.gameObject, spawnPositions[randomIndex].position, spawnPositions[randomIndex].rotation).GetComponent<Projectile>();
+      projectile.damage = damage;
       projectile.onHit = OnProjectileHit;
       projectile.onFadeAway = OnProjectileHit;
-      projectile.onGotShielded = OnProjectileHit;
+      projectile.onGotShielded = OnProjectileShielded;
       timer = 0;
     }
   }
 
   void OnProjectileHit(Projectile projectile)
   {
-    Debug.Log(projectile.transform.position);
-    GameObject explosion = ObjectPooler.instance.GetPooledObject(explosionPrefab, projectile.transform.position, projectile.transform.rotation);
-    Debug.Log(explosion.transform.position);
     ObjectPooler.instance.Release(projectilePrefab.gameObject, projectile.gameObject);
-    if (gameObject)
-      StartCoroutine(ReleaseExplosion(explosion));
+
+    ITimedPoolObject explosion = ObjectPooler.instance.GetPooledObject(explosionPrefab, projectile.transform.position, projectile.transform.rotation).GetComponent<ITimedPoolObject>();
+    explosion.ReturnAfter(explosionPrefab, 1f);
   }
 
-  IEnumerator ReleaseExplosion(GameObject explosion)
+  void OnProjectileShielded(Projectile projectile)
   {
-    yield return new WaitForSeconds(1f);
-    ObjectPooler.instance.Release(explosionPrefab, explosion);
+    ObjectPooler.instance.Release(projectilePrefab.gameObject, projectile.gameObject);
+
+    ITimedPoolObject explosion = ObjectPooler.instance.GetPooledObject(explosionShieldedPrefab, projectile.transform.position, projectile.transform.rotation).GetComponent<ITimedPoolObject>();
+    explosion.ReturnAfter(explosionPrefab, 1f);
   }
 }

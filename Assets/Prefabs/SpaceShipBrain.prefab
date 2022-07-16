@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5677657478319041479}
   - component: {fileID: 5677657478319041478}
   - component: {fileID: 5677657478319041477}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpaceShipBrain
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -114,6 +114,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 0}
+  healthbar: {fileID: 3407589235779535130, guid: baa0c048da131134092ca4bc0428549f, type: 3}
+  healthbarOffset: 1.2
+  maxHealth: 10
   health: 10
 --- !u!58 &5677657478319041478
 CircleCollider2D:

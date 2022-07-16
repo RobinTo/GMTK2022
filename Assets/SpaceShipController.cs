@@ -9,10 +9,6 @@ public class SpaceShipController : MonoBehaviour
   List<SpaceShipModule> modules = new List<SpaceShipModule>();
   public List<SpaceShipModule> Modules { get { return modules; } }
 
-  // Resources
-  private int metal;
-  public int Metal { get { return metal; } }
-
 
   void Awake()
   {
@@ -39,10 +35,5 @@ public class SpaceShipController : MonoBehaviour
       // Game ends!
     }
     modules.Remove(module);
-  }
-
-  public void AddMetal(int metal)
-  {
-    this.metal += metal;
   }
 }

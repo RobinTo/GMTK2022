@@ -25,12 +25,12 @@ public class GameManager : MonoBehaviour
     {
       Destroy(gameObject);
     }
+    enemies = new List<Enemy>();
   }
 
   // Start is called before the first frame update
   void Start()
   {
-    enemies = new List<Enemy>();
   }
 
   // Update is called once per frame

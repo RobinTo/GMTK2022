@@ -7,7 +7,7 @@ public class ObjectPooler : MonoBehaviour
   public static ObjectPooler instance;
   Dictionary<GameObject, List<GameObject>> pool = new Dictionary<GameObject, List<GameObject>>();
 
-  public GameObject GetPooledObject(GameObject prefab, Vector3 position, Quaternion rotation)
+  public GameObject GetPooledObject(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
   {
     if (!pool.ContainsKey(prefab))
     {
@@ -23,7 +23,10 @@ public class ObjectPooler : MonoBehaviour
     {
       obj = Instantiate(prefab, position, rotation);
     }
-
+    if (parent)
+    {
+      obj.transform.parent = parent;
+    }
     obj.transform.position = position;
     obj.transform.rotation = rotation;
     obj.SetActive(true);
