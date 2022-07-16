@@ -27,6 +27,9 @@ public class ResourceManager : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
+
+    ModifyResource(Resource.Wood, 30);
+    ModifyResource(Resource.Iron, 30);
   }
 
   public int GetResourceAmount(Resource resource)
@@ -55,6 +58,18 @@ public class ResourceManager : MonoBehaviour
     {
       ModifyResource(resourceCost.resource, -resourceCost.amount);
     }
+  }
+
+  public bool CanAfford(List<ResourceCost> cost)
+  {
+    foreach (ResourceCost resourceCost in cost)
+    {
+      if (GetResourceAmount(resourceCost.resource) < resourceCost.amount)
+      {
+        return false;
+      }
+    }
+    return true;
   }
 
   public static Sprite GetSprite(Resource resource)

@@ -31,6 +31,9 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
   [SerializeField]
   ModuleConnection moduleConnectionPrefab;
 
+  [SerializeField]
+  public List<ResourceCost> BaseCost;
+
   List<SpaceShipModule> connectedModules;
   public List<SpaceShipModule> ConnectedModules { get { return connectedModules; } }
 

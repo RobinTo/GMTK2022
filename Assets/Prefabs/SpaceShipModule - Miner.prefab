@@ -157,8 +157,10 @@ MonoBehaviour:
   chanceToMine: 5
   timeBetweenMines: 1
   timer: 0
+  target: {fileID: 0}
+  targetAsteroid: {fileID: 0}
+  moving: 0
   speedModifier: 0.5
-  maxDistance: 4
   resourceDistribution:
     serializedVersion: 2
     m_Curve:
@@ -441,6 +443,22 @@ PrefabInstance:
     - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: description
       value: Tries to grab nearby asteroids and extract useful resources.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BaseCost.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BaseCost.Array.data[0].amount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BaseCost.Array.data[1].amount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BaseCost.Array.data[1].resource
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: m_RootOrder

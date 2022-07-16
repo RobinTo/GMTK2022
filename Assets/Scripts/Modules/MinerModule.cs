@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MinerModule : MonoBehaviour, IUpgradable
 {
-  enum MovingState
+  public enum MovingState
   {
     Idle,
     Mining,
@@ -28,16 +28,15 @@ public class MinerModule : MonoBehaviour, IUpgradable
   public float timeBetweenMines = 1f;
   public float timer = 0;
 
-  Transform target;
+  public Transform target;
+  public Asteroid targetAsteroid;
   Transform uiCanvas;
   Camera mainCamera;
 
-  MovingState moving = MovingState.Idle;
+  public MovingState moving = MovingState.Idle;
 
   [SerializeField]
   float speedModifier = .5f;
-  [SerializeField]
-  float maxDistance = 4;
 
   int level = 0;
   List<Resource> availableResource;
@@ -48,9 +47,12 @@ public class MinerModule : MonoBehaviour, IUpgradable
   [SerializeField]
   List<UpgradeCosts> baseUpgradeCosts;
 
+  List<Transform> objectsInRange;
+
   // Start is called before the first frame update
   void Start()
   {
+    objectsInRange = new List<Transform>();
     mainCamera = Camera.main;
     uiCanvas = GameObject.FindGameObjectWithTag("UICanvas").transform;
     mineLine.SetPositions(new Vector3[] { transform.position, transform.position + Vector3.up + Vector3.right * .25f, transform.position + Vector3.right * .5f });
@@ -69,26 +71,39 @@ public class MinerModule : MonoBehaviour, IUpgradable
   {
     if (moving == MovingState.Mining)
     {
+      if (target == null || targetAsteroid == null || targetAsteroid.IsGrabbed)
+      {
+        target = null;
+        targetAsteroid = null;
+        moving = MovingState.Retrieving;
+        LookForNewTarget();
+        return;
+      }
       Vector3 midPosition = ((target.position + transform.position) / 2) + Vector3.up;
       mineLine.SetPositions(new Vector3[] { transform.position, Vector3.MoveTowards(mineLine.GetPosition(1), midPosition, Time.deltaTime * speedModifier), Vector3.MoveTowards(mineLine.GetPosition(2), TargetPositionWithOffset(), Time.deltaTime * speedModifier) });
       grab.transform.position = mineLine.GetPosition(2);
       float distance = Vector3.Distance(grab.transform.position, TargetPositionWithOffset());
       if (distance < .1f)
       {
+        Asteroid asteroid = target.GetComponent<Asteroid>();
+        if (asteroid.IsGrabbed)
+        {
+          moving = MovingState.Retrieving;
+          grab.sprite = grabOpenSprite;
+          target = null;
+          targetAsteroid = null;
+          LookForNewTarget();
+          return;
+        }
         moving = MovingState.Retrieving;
         grab.sprite = grabClosedSprite;
         target.parent = grab.transform;
-        target.GetComponent<Asteroid>().enabled = false;
+        asteroid.IsGrabbed = true;
+        asteroid.enabled = false;
         target.GetComponent<SpriteRenderer>().sortingOrder = 2;
       }
-      else if (Vector3.Distance(transform.position, TargetPositionWithOffset()) > maxDistance)
-      {
-        moving = MovingState.Retrieving;
-        grab.sprite = grabOpenSprite;
-        target = null;
-      }
     }
-    if (moving == MovingState.Retrieving)
+    else if (moving == MovingState.Retrieving)
     {
 
       Vector3 midPosition = transform.position + Vector3.up;
@@ -101,7 +116,6 @@ public class MinerModule : MonoBehaviour, IUpgradable
         grab.sprite = grabOpenSprite;
         if (target != null)
         {
-          Asteroid targetAsteroid = target.GetComponent<Asteroid>();
           if (targetAsteroid != null)
           {
             foreach (ResourceCost r in targetAsteroid.Resources)
@@ -110,8 +124,9 @@ public class MinerModule : MonoBehaviour, IUpgradable
               ShowScrollingResourcePrefab(r.resource, r.amount);
             }
           }
-          Destroy(target.gameObject);
+          target.GetComponent<TimedPoolObject>().ReturnNow();
         }
+        LookForNewTarget();
       }
     }
   }
@@ -127,13 +142,84 @@ public class MinerModule : MonoBehaviour, IUpgradable
 
   void OnTriggerEnter2D(Collider2D other)
   {
-    if (moving != MovingState.Idle && !(moving == MovingState.Retrieving && target == null))
-      return;
     if (other && other.gameObject && other.gameObject.CompareTag("Asteroid"))
     {
-      target = other.transform;
-      moving = MovingState.Mining;
-      grab.sprite = grabOpenSprite;
+      objectsInRange.Add(other.transform);
+      LookForNewTarget();
+    }
+  }
+
+  void OnTriggerExit2D(Collider2D other)
+  {
+    if (other && other.gameObject && other.gameObject.CompareTag("Asteroid"))
+    {
+      if (other == null)
+      {
+        // Remove all null values from objectsInRange
+        Debug.Log("Remoing null values from objectsInRange");
+        objectsInRange.RemoveAll(x => x == null);
+        return;
+      }
+
+      objectsInRange.Remove(other.transform);
+
+      if (other.transform == target && other.transform.parent != grab.transform)
+      {
+        moving = MovingState.Retrieving;
+        grab.sprite = grabOpenSprite;
+        target = null;
+        LookForNewTarget();
+      }
+    }
+  }
+
+  void LookForNewTarget()
+  {
+    if (moving == MovingState.Retrieving && target != null)
+    {
+      return;
+    }
+    // Find nearest target from objectsInRange
+    if (objectsInRange.Count > 0)
+    {
+      Transform nearest = null;
+      Asteroid nearestAsteroid = null;
+      float nearestDistance = Mathf.Infinity;
+      foreach (Transform t in objectsInRange)
+      {
+        Asteroid tasteroid = t.GetComponent<Asteroid>();
+        if (tasteroid.IsGrabbed)
+        {
+          continue;
+        }
+        float distance = Vector3.Distance(grab.transform.position, t.position);
+        if (distance < nearestDistance)
+        {
+          nearest = t;
+          nearestAsteroid = tasteroid;
+          nearestDistance = distance;
+        }
+      }
+
+      if (nearest == null)
+      {
+        target = null;
+        targetAsteroid = null;
+        moving = MovingState.Retrieving;
+      }
+      else
+      {
+        target = nearest;
+        targetAsteroid = nearestAsteroid;
+        moving = MovingState.Mining;
+        grab.sprite = grabOpenSprite;
+      }
+    }
+    else
+    {
+      target = null;
+      targetAsteroid = null;
+      moving = MovingState.Retrieving;
     }
   }
 

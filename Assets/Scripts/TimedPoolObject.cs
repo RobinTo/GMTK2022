@@ -13,6 +13,11 @@ public class TimedPoolObject : MonoBehaviour, ITimedPoolObject
     timer = time;
   }
 
+  public void ReturnNow()
+  {
+    ObjectPooler.instance.Release(prefab, gameObject);
+  }
+
   void Update()
   {
     if (!prefab) return;

@@ -44,6 +44,8 @@ GameObject:
   - component: {fileID: 6389612072991239363}
   - component: {fileID: 6389612072991239362}
   - component: {fileID: 6389612072991239374}
+  - component: {fileID: 2035196090}
+  - component: {fileID: 2035196089}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -159,10 +161,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 3728464426976364178, guid: 826d7796ed08eab49a0f32884e765384, type: 3}
   explosionPrefab: {fileID: 7893043826627764728, guid: b3b3ba9e34b67a64cad7f0c58fceec3e, type: 3}
+  explosionShieldedPrefab: {fileID: 3889466574497499815, guid: 008c752aec1a70c4db4283cc4a5674ae, type: 3}
+  damage: 1
   timeBetweenFire: 0.5
   spawnPositions:
   - {fileID: 6389612072419510222}
   - {fileID: 6389612072993388095}
+--- !u!50 &2035196090
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389612072991239365}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!58 &2035196089
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389612072991239365}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.04, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.35
 --- !u!1 &6389612072993388094
 GameObject:
   m_ObjectHideFlags: 0

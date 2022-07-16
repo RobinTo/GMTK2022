@@ -83,6 +83,12 @@ public class BuildingManager : MonoBehaviour
       if (collision == null)
       {
         Instantiate(buildingObject, preview.transform.position, Quaternion.identity);
+
+        SpaceShipModule module = buildingObject.GetComponent<SpaceShipModule>();
+        if (module != null)
+        {
+          ResourceManager.instance.SpendResources(module.BaseCost);
+        }
         preview.gameObject.SetActive(false);
         building = false;
       }
@@ -96,6 +102,15 @@ public class BuildingManager : MonoBehaviour
 
   public void StartBuild(GameObject toBuild)
   {
+    SpaceShipModule module = toBuild.GetComponent<SpaceShipModule>();
+    if (module != null)
+    {
+      if (!ResourceManager.instance.CanAfford(module.BaseCost))
+      {
+        return;
+      }
+    }
+
     preview.gameObject.SetActive(true);
     building = true;
     buildingObject = toBuild;
@@ -103,8 +118,11 @@ public class BuildingManager : MonoBehaviour
 
   public void StartBuildingConnection()
   {
-    buildingConnection = true;
-    moduleA = null;
+    if (ResourceManager.instance.CanAfford(new List<ResourceCost>() { new ResourceCost(Resource.Wood, 5) }))
+    {
+      buildingConnection = true;
+      moduleA = null;
+    }
   }
 
   public void ModuleClicked(SpaceShipModule module)
@@ -123,6 +141,10 @@ public class BuildingManager : MonoBehaviour
       moduleA.CreateModuleConnection(module);
       buildingConnection = false;
       lineRenderer.enabled = false;
+
+      ResourceManager.instance.SpendResources(new List<ResourceCost>() {
+        new ResourceCost(Resource.Wood, 5),
+      });
     }
   }
 }
