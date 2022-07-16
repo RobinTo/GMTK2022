@@ -9,9 +9,17 @@ public class BuildingManager : MonoBehaviour
   SpriteRenderer preview;
   [SerializeField]
   LayerMask spaceshipLayer;
+  [SerializeField]
+  LineRenderer lineRenderer;
 
   bool building = false;
   GameObject buildingObject;
+
+  bool buildingConnection = false;
+  public bool IsbuildingConnection { get { return buildingConnection; } }
+  SpaceShipModule moduleA;
+
+  Camera mainCamera;
 
   void Awake()
   {
@@ -27,11 +35,32 @@ public class BuildingManager : MonoBehaviour
 
   void Start()
   {
+    mainCamera = Camera.main;
     preview.gameObject.SetActive(false);
   }
 
   void Update()
   {
+    if (buildingConnection)
+    {
+      if (Input.GetMouseButtonDown(1))
+      {
+        buildingConnection = false;
+        lineRenderer.enabled = false;
+        moduleA = null;
+      }
+      if (moduleA != null)
+      {
+
+        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0;
+        lineRenderer.SetPositions(new Vector3[] {
+              moduleA.transform.position,
+              mousePosition
+          });
+      }
+    }
+
     if (!building) return;
 
     Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -58,6 +87,11 @@ public class BuildingManager : MonoBehaviour
         building = false;
       }
     }
+    if (Input.GetMouseButtonDown(1))
+    {
+      preview.gameObject.SetActive(false);
+      building = false;
+    }
   }
 
   public void StartBuild(GameObject toBuild)
@@ -65,5 +99,30 @@ public class BuildingManager : MonoBehaviour
     preview.gameObject.SetActive(true);
     building = true;
     buildingObject = toBuild;
+  }
+
+  public void StartBuildingConnection()
+  {
+    buildingConnection = true;
+    moduleA = null;
+  }
+
+  public void ModuleClicked(SpaceShipModule module)
+  {
+    if (moduleA == null)
+    {
+      moduleA = module;
+      lineRenderer.enabled = true;
+      lineRenderer.SetPositions(new Vector3[] {
+              moduleA.transform.position,
+              mainCamera.ScreenToWorldPoint(Input.mousePosition)
+          });
+    }
+    else
+    {
+      moduleA.CreateModuleConnection(module);
+      buildingConnection = false;
+      lineRenderer.enabled = false;
+    }
   }
 }

@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -32,13 +32,18 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
   ModuleConnection moduleConnectionPrefab;
 
   List<SpaceShipModule> connectedModules;
+  public List<SpaceShipModule> ConnectedModules { get { return connectedModules; } }
+
+  public Action<SpaceShipModule> OnModuleDestroyed;
 
   public void Damage(int damage)
   {
     health -= damage;
     if (health <= 0)
     {
+      Debug.Log("Death of " + gameObject.name);
       SpaceShipController.instance.RemoveModule(this);
+      OnModuleDestroyed?.Invoke(this);
       Destroy(gameObject);
     }
   }
@@ -47,6 +52,11 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
   {
     if (currentHealthbar)
       ObjectPooler.instance.Release(healthbar, currentHealthbar.gameObject);
+
+    foreach (SpaceShipModule m in connectedModules)
+    {
+      m.OnModuleDestroyed -= RemoveModuleConnection;
+    }
   }
 
   void Start()
@@ -92,8 +102,7 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
       if (currentHealthbar == null)
       {
         Vector3 position = mainCamera.WorldToScreenPoint(transform.position + Vector3.down * healthbarOffset);
-        currentHealthbar = ObjectPooler.instance.GetPooledObject(healthbar, position, Quaternion.identity).GetComponent<Healthbar>();
-        currentHealthbar.transform.parent = uiCanvas;
+        currentHealthbar = ObjectPooler.instance.GetPooledObject(healthbar, position, Quaternion.identity, uiCanvas).GetComponent<Healthbar>();
       }
       currentHealthbar.SetHealth(health, maxHealth);
     }
@@ -103,7 +112,7 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
     }
   }
 
-  void CreateModuleConnection(SpaceShipModule moduleB)
+  public void CreateModuleConnection(SpaceShipModule moduleB)
   {
     ModuleConnection connection = Instantiate(moduleConnectionPrefab, transform);
     connection.Connect(this, moduleB);
@@ -116,12 +125,32 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
     if (connectedModules == null)
       connectedModules = new List<SpaceShipModule>();
     connectedModules.Add(module);
+
+    module.OnModuleDestroyed += RemoveModuleConnection;
+  }
+
+  void RemoveModuleConnection(SpaceShipModule module)
+  {
+    connectedModules.Remove(module);
+    module.OnModuleDestroyed -= RemoveModuleConnection;
+    if (connectedModules.Count == 0)
+    {
+      OnModuleDestroyed?.Invoke(this);
+      SpaceShipController.instance.RemoveModule(this);
+      Destroy(gameObject);
+    }
   }
 
   public void OnPointerClick(PointerEventData eventData)
   {
     if (eventData.button == PointerEventData.InputButton.Left)
     {
+      if (BuildingManager.instance.IsbuildingConnection)
+      {
+        BuildingManager.instance.ModuleClicked(this);
+        return;
+      }
+
       List<ResourceCost> costs = new List<ResourceCost>();
       IUpgradable upgradeable = GetComponentInChildren<IUpgradable>();
       if (upgradeable != null)

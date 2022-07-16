@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4294689369933902235}
   - component: {fileID: 835228563254390641}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: miner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 3613887374285522358}
   - component: {fileID: 9019205976719405646}
   - component: {fileID: 489529759378242403}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MinerModule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1794173820319959037}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MinerLineStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5790885511778490265}
   - component: {fileID: 1962600642872439401}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Grab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -448,11 +448,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.97
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: m_LocalPosition.z

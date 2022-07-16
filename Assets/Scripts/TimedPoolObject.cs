@@ -9,7 +9,7 @@ public class TimedPoolObject : MonoBehaviour, ITimedPoolObject
 
   public void ReturnAfter(GameObject prefab, float time)
   {
-
+    this.prefab = prefab;
     timer = time;
   }
 

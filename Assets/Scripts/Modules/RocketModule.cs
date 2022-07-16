@@ -43,11 +43,12 @@ public class RocketModule : MonoBehaviour, IUpgradable
     {
       shootPosition.rotation = Quaternion.Slerp(shootPosition.rotation, GetLookRotation(), Time.deltaTime * 10f);
     }
+
     timer += Time.deltaTime;
     // Try to fire when timer reaches timebetween fire with a chance of chanceToFire
     if (timer >= timeBetweenFires)
     {
-      if (Random.Range(0, 100) < chanceToFire)
+      if (target != null && Random.Range(0, 100) < chanceToFire)
       {
         Debug.Log("Fire projectile!");
         Projectile projectile = ObjectPooler.instance.GetPooledObject(bulletPrefab.gameObject, shootPosition.position, shootPosition.rotation).GetComponent<Projectile>();

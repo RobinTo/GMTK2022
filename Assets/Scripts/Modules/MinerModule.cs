@@ -78,12 +78,14 @@ public class MinerModule : MonoBehaviour, IUpgradable
         moving = MovingState.Retrieving;
         grab.sprite = grabClosedSprite;
         target.parent = grab.transform;
+        target.GetComponent<Asteroid>().enabled = false;
         target.GetComponent<SpriteRenderer>().sortingOrder = 2;
       }
-      else if (distance > maxDistance)
+      else if (Vector3.Distance(transform.position, TargetPositionWithOffset()) > maxDistance)
       {
         moving = MovingState.Retrieving;
         grab.sprite = grabOpenSprite;
+        target = null;
       }
     }
     if (moving == MovingState.Retrieving)
@@ -97,11 +99,19 @@ public class MinerModule : MonoBehaviour, IUpgradable
       {
         moving = MovingState.Idle;
         grab.sprite = grabOpenSprite;
-        Destroy(target.gameObject);
-        // Get a random resource from availableResources
-        int resourceIndex = Random.Range(0, availableResource.Count);
-        ResourceManager.instance.ModifyResource(availableResource[resourceIndex], 5);
-        ShowScrollingResourcePrefab(availableResource[resourceIndex], 5);
+        if (target != null)
+        {
+          Asteroid targetAsteroid = target.GetComponent<Asteroid>();
+          if (targetAsteroid != null)
+          {
+            foreach (ResourceCost r in targetAsteroid.Resources)
+            {
+              ResourceManager.instance.ModifyResource(r.resource, r.amount);
+              ShowScrollingResourcePrefab(r.resource, r.amount);
+            }
+          }
+          Destroy(target.gameObject);
+        }
       }
     }
   }
@@ -117,6 +127,8 @@ public class MinerModule : MonoBehaviour, IUpgradable
 
   void OnTriggerEnter2D(Collider2D other)
   {
+    if (moving != MovingState.Idle && !(moving == MovingState.Retrieving && target == null))
+      return;
     if (other && other.gameObject && other.gameObject.CompareTag("Asteroid"))
     {
       target = other.transform;
@@ -129,6 +141,7 @@ public class MinerModule : MonoBehaviour, IUpgradable
   {
     level++;
     maxResourcePerMine++;
+    speedModifier *= 2;
 
     if (level == 1)
     {
