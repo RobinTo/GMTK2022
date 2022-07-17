@@ -33,6 +33,14 @@ public class ProducerModule : MonoBehaviour, IUpgradable
   [SerializeField]
   List<UpgradeCosts> baseUpgradeCosts;
 
+
+  [Header("Sounds")]
+  [SerializeField]
+  AudioClip produceSound;
+  [SerializeField]
+  AudioClip failSound;
+  AudioSource audioSource;
+
   bool producing = true;
   public bool IsProducing { get { return producing; } }
   public void SetProducing(bool producing)
@@ -43,14 +51,26 @@ public class ProducerModule : MonoBehaviour, IUpgradable
   // Start is called before the first frame update
   void Start()
   {
+    audioSource = gameObject.AddComponent<AudioSource>();
+    audioSource.clip = produceSound;
+    audioSource.playOnAwake = false;
+    audioSource.volume = SettingsManager.instance.sfxVolume;
     Transform parent = GameObject.FindGameObjectWithTag("UIHealthbarParent").transform;
     currentProgressBar = ObjectPooler.instance.GetPooledObject(progressbarPrefab, Vector3.zero, Quaternion.identity, parent).GetComponent<ProgressBar>();
     currentProgressBar.Attach(gameObject, progressbarOffset);
+
+    AudioManager.instance.OnSFXVolumeChanged += OnSFXVolumeChanged;
   }
 
   void OnDestroy()
   {
+    AudioManager.instance.OnSFXVolumeChanged -= OnSFXVolumeChanged;
     ObjectPooler.instance.Release(progressbarPrefab, currentProgressBar.gameObject);
+  }
+
+  void OnSFXVolumeChanged(float volume)
+  {
+    audioSource.volume = volume;
   }
 
   // Update is called once per frame
@@ -68,7 +88,14 @@ public class ProducerModule : MonoBehaviour, IUpgradable
         ResourceManager.instance.SpendResources(requiresResources);
         if (Random.Range(0, 100) > chanceToFail)
         {
+          audioSource.clip = produceSound;
+          audioSource.Play();
           ResourceManager.instance.ModifyResource(resourceToProduce, Random.Range(minAmount, maxAmount + 1));
+        }
+        else
+        {
+          audioSource.clip = failSound;
+          audioSource.Play();
         }
         timer = 0;
       }

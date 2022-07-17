@@ -18,10 +18,20 @@ public class EnemyProjectileFire : MonoBehaviour
   [SerializeField]
   List<Transform> spawnPositions;
 
+  [SerializeField]
+  AudioSource audioSource;
+
 
   // Start is called before the first frame update
   void Start()
   {
+    audioSource.volume = SettingsManager.instance.sfxVolume;
+    AudioManager.instance.OnSFXVolumeChanged += OnSFXVolumeChanged;
+  }
+
+  void OnSFXVolumeChanged(float volume)
+  {
+    audioSource.volume = volume;
   }
 
   // Update is called once per frame
@@ -34,6 +44,8 @@ public class EnemyProjectileFire : MonoBehaviour
       // Spawn projectile at random spawn position
       int randomIndex = Random.Range(0, spawnPositions.Count);
       Projectile projectile = ObjectPooler.instance.GetPooledObject(projectilePrefab.gameObject, spawnPositions[randomIndex].position, spawnPositions[randomIndex].rotation).GetComponent<Projectile>();
+      audioSource.Play();
+      projectile.ResetTTL();
       projectile.damage = damage;
       projectile.onHit = OnProjectileHit;
       projectile.onFadeAway = OnProjectileHit;

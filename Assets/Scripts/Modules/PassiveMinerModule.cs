@@ -42,18 +42,35 @@ public class PassiveMinerModule : MonoBehaviour, IUpgradable
   Camera mainCamera;
   Transform parent;
 
+  [Header("Sounds")]
+  [SerializeField]
+  AudioClip produceSound;
+  AudioSource audioSource;
+
   // Start is called before the first frame update
   void Start()
   {
+    audioSource = gameObject.AddComponent<AudioSource>();
+    audioSource.clip = produceSound;
+    audioSource.playOnAwake = false;
+    audioSource.volume = SettingsManager.instance.sfxVolume;
     mainCamera = Camera.main;
     parent = GameObject.FindGameObjectWithTag("UIHealthbarParent").transform;
     currentProgressBar = ObjectPooler.instance.GetPooledObject(progressbarPrefab, Vector3.zero, Quaternion.identity, parent).GetComponent<ProgressBar>();
     currentProgressBar.Attach(gameObject, progressbarOffset);
+
+    AudioManager.instance.OnSFXVolumeChanged += OnSFXVolumeChanged;
   }
 
   void OnDestroy()
   {
+    AudioManager.instance.OnSFXVolumeChanged -= OnSFXVolumeChanged;
     ObjectPooler.instance.Release(progressbarPrefab, currentProgressBar.gameObject);
+  }
+
+  void OnSFXVolumeChanged(float volume)
+  {
+    audioSource.volume = volume;
   }
 
   // Update is called once per frame
@@ -80,6 +97,7 @@ public class PassiveMinerModule : MonoBehaviour, IUpgradable
   {
     foreach (Tuple<Resource, int> resource in resources)
     {
+      audioSource.Play();
       ShowScrollingResourcePrefab(resource.Item1, resource.Item2);
       yield return new WaitForSeconds(0.25f);
     }

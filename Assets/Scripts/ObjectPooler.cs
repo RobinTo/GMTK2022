@@ -5,19 +5,18 @@ using UnityEngine;
 public class ObjectPooler : MonoBehaviour
 {
   public static ObjectPooler instance;
-  Dictionary<GameObject, List<GameObject>> pool = new Dictionary<GameObject, List<GameObject>>();
+  Dictionary<GameObject, Queue<GameObject>> pool = new Dictionary<GameObject, Queue<GameObject>>();
 
   public GameObject GetPooledObject(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
   {
     if (!pool.ContainsKey(prefab))
     {
-      pool.Add(prefab, new List<GameObject>());
+      pool.Add(prefab, new Queue<GameObject>());
     }
     GameObject obj = null;
     if (pool[prefab].Count > 0)
     {
-      obj = pool[prefab][0];
-      pool[prefab].RemoveAt(0);
+      obj = pool[prefab].Dequeue();
     }
     else
     {
@@ -37,10 +36,10 @@ public class ObjectPooler : MonoBehaviour
   {
     if (!pool.ContainsKey(prefab))
     {
-      pool.Add(prefab, new List<GameObject>());
+      pool.Add(prefab, new Queue<GameObject>());
     }
     obj.SetActive(false);
-    pool[prefab].Add(obj);
+    pool[prefab].Enqueue(obj);
   }
 
 

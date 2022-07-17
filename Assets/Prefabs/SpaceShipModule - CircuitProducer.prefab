@@ -218,6 +218,8 @@ MonoBehaviour:
       amount: 1
     - resource: 1
       amount: 20
+  produceSound: {fileID: 8300000, guid: 82aae7b90639aae429a35fff029f0e51, type: 3}
+  failSound: {fileID: 8300000, guid: 25e4f6243d97d03489edc90d9320cee9, type: 3}
 --- !u!4 &6483892222407871096 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}

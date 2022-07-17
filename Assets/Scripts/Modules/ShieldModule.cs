@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShieldModule : MonoBehaviour, IUpgradable
@@ -19,9 +20,29 @@ public class ShieldModule : MonoBehaviour, IUpgradable
   [SerializeField]
   CircleCollider2D shieldCollider;
 
+  [Header("Sounds")]
+  [SerializeField]
+  AudioClip shieldSound;
+  AudioSource audioSource;
+
   // Start is called before the first frame update
   void Start()
   {
+    audioSource = gameObject.AddComponent<AudioSource>();
+    audioSource.clip = shieldSound;
+    audioSource.playOnAwake = false;
+    audioSource.volume = SettingsManager.instance.sfxVolume;
+    AudioManager.instance.OnSFXVolumeChanged += OnSFXVolumeChanged;
+  }
+
+  void OnDestroy()
+  {
+    AudioManager.instance.OnSFXVolumeChanged -= OnSFXVolumeChanged;
+  }
+
+  void OnSFXVolumeChanged(float volume)
+  {
+    audioSource.volume = volume;
   }
 
   // Update is called once per frame
@@ -39,6 +60,7 @@ public class ShieldModule : MonoBehaviour, IUpgradable
         Projectile projectile = other.gameObject.GetComponent<Projectile>();
         if (projectile)
         {
+          audioSource.Play();
           animator.SetTrigger("Shield");
           timer = cooldown;
           projectile.Shield();

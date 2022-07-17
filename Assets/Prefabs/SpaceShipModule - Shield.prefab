@@ -76,7 +76,8 @@ MonoBehaviour:
       amount: 40
     - resource: 0
       amount: 100
-  shieldCollider: {fileID: 0}
+  shieldCollider: {fileID: 3613887374285522358}
+  shieldSound: {fileID: 8300000, guid: 86d6c042b2d6c774cb48ac07b5e5e022, type: 3}
 --- !u!1 &7678755395459238320
 GameObject:
   m_ObjectHideFlags: 0

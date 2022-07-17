@@ -71,6 +71,13 @@ public class EnemySpawner : MonoBehaviour
     bossTimer = time;
   }
 
+  public bool initialSpawnHappened = false;
+
+  public float RemainingTime()
+  {
+    return initialSpawnHappened ? 0 : initialWaitTime + spawnInterval - timer;
+  }
+
   // Update is called once per frame
   void Update()
   {
@@ -97,7 +104,8 @@ public class EnemySpawner : MonoBehaviour
     if (timer > spawnInterval)
     {
       timer = 0;
-      for (int i = 0; i < numberOfEnemies; i++)
+      initialSpawnHappened = true;
+      for (int i = 0; i < Random.Range(1, numberOfEnemies + 1); i++)
       {
         SpawnEnemy();
 
@@ -126,7 +134,7 @@ public class EnemySpawner : MonoBehaviour
     List<GameObject> availableEnemies = new List<GameObject>();
     foreach (EnemySpawnConditions condition in spawnConditions)
     {
-      if (condition.time <= timer)
+      if (condition.time <= StatTracker.instance.timeAlive)
       {
         availableEnemies.Add(condition.prefab);
       }

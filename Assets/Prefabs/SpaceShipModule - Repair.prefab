@@ -205,6 +205,23 @@ MonoBehaviour:
   repairInterval: 15
   repairChance: 10
   repairAmount: 1
+  baseUpgradeCosts:
+  - costs:
+    - resource: 0
+      amount: 40
+    - resource: 1
+      amount: 50
+  - costs:
+    - resource: 1
+      amount: 40
+    - resource: 2
+      amount: 10
+  - costs:
+    - resource: 2
+      amount: 10
+    - resource: 3
+      amount: 1
+  healSound: {fileID: 8300000, guid: 177f817bbd45312428798d68fd5238ad, type: 3}
 --- !u!4 &3525271104754833979 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}

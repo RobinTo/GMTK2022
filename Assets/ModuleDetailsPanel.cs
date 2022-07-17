@@ -27,6 +27,12 @@ public class ModuleDetailsPanel : MonoBehaviour
   IUpgradable currentUpgradable;
   SpaceShipModule currentModule;
 
+
+  [Header("Sounds")]
+  [SerializeField]
+  AudioClip buttonSound;
+  AudioSource audioSource;
+
   void Awake()
   {
     if (instance == null)
@@ -55,6 +61,7 @@ public class ModuleDetailsPanel : MonoBehaviour
 
   public void OnToggleProductionClick()
   {
+    audioSource.Play();
     ProducerModule pm = currentModule.GetComponent<ProducerModule>();
     if (pm != null)
     {
@@ -79,6 +86,7 @@ public class ModuleDetailsPanel : MonoBehaviour
 
   public void OnUpgradeClick()
   {
+    audioSource.Play();
     if (currentUpgradable != null && CanAffordToUpgrade())
     {
       ResourceManager.instance.SpendResources(currentUpgradable.GetCost());
@@ -99,6 +107,9 @@ public class ModuleDetailsPanel : MonoBehaviour
 
   void Start()
   {
+    audioSource = gameObject.AddComponent<AudioSource>();
+    audioSource.clip = buttonSound;
+    audioSource.playOnAwake = false;
     gameObject.SetActive(false);
   }
 

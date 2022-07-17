@@ -210,6 +210,8 @@ MonoBehaviour:
       amount: 50
     - resource: 3
       amount: 3
+  triggerCollider: {fileID: 3613887374285522358}
+  lootSound: {fileID: 8300000, guid: 82aae7b90639aae429a35fff029f0e51, type: 3}
 --- !u!120 &489529759378242403
 LineRenderer:
   m_ObjectHideFlags: 0

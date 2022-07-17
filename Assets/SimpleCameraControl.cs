@@ -30,6 +30,6 @@ public class SimpleCameraControl : MonoBehaviour
     {
       velocity.x = 1;
     }
-    transform.position += new Vector3(velocity.x, velocity.y, 0) * Time.deltaTime;
+    transform.position += new Vector3(velocity.x, velocity.y, 0) * SettingsManager.instance.cameraMoveSensitivity * Time.deltaTime;
   }
 }

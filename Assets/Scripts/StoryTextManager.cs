@@ -11,12 +11,15 @@ public class StoryTextManager : MonoBehaviour
   string welcomeMessage3 = "You can access information and spend resources to upgrade your modules by clicking on them. Upgrading them will increase their effectiveness. Consider upgrading your miner.";
   string welcomeMessage4 = "I found the schematics for a shield and rocket module, lets try to get some defenses up and running.";
   string welcomeMessage5 = "We looted some schematics from that ship. Check them out in the building menu. I have set aside some of the looted resources to build a circuit producer, try building one now.";
+  string connectionInfo = "Some modules such as the repair module requires a connection to modules to repair them. Each module can have 3 connections, build connections from the building menu by clicking the modules.";
   string bossMessage = "Wow, that ship contained some rare schematics, take a look at our new modules in your building menu!";
 
   float timer = 0;
 
   bool firstEnemyDestroyed = false;
 
+  [SerializeField]
+  GameObject countdowmGO;
 
   void Start()
   {
@@ -51,9 +54,13 @@ public class StoryTextManager : MonoBehaviour
       TextPanel.instance.ShowText(welcomeMessage5);
       TextPanel.instance.onTextFinished = () =>
       {
-        TextPanel.instance.Hide();
-        currentStep = 4;
-        timer = 0;
+        TextPanel.instance.ShowText(connectionInfo);
+        TextPanel.instance.onTextFinished = () =>
+        {
+          TextPanel.instance.Hide();
+          currentStep = 4;
+          timer = 0;
+        };
       };
     };
   }
@@ -71,6 +78,7 @@ public class StoryTextManager : MonoBehaviour
       TextPanel.instance.onFullTextShowing = () =>
       {
         EnemySpawner.instance.SetActive(true);
+        countdowmGO.SetActive(true);
       };
       TextPanel.instance.onTextFinished = () =>
       {

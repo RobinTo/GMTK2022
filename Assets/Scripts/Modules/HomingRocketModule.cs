@@ -13,6 +13,7 @@ public class HomingRocketModule : MonoBehaviour, IUpgradable
   [SerializeField]
   Transform shootPosition;
 
+
   public int range = 10;
   public float chanceToFire = 5f;
 
@@ -26,10 +27,30 @@ public class HomingRocketModule : MonoBehaviour, IUpgradable
   [SerializeField]
   List<UpgradeCosts> baseUpgradeCosts;
 
+  [Header("Sounds")]
+  [SerializeField]
+  AudioClip shootSound;
+  AudioSource audioSource;
+
   // Start is called before the first frame update
   void Start()
   {
+    audioSource = gameObject.AddComponent<AudioSource>();
+    audioSource.clip = shootSound;
+    audioSource.playOnAwake = false;
+    audioSource.volume = SettingsManager.instance.sfxVolume;
 
+    AudioManager.instance.OnSFXVolumeChanged += OnSFXVolumeChanged;
+  }
+
+  void OnDestroy()
+  {
+    AudioManager.instance.OnSFXVolumeChanged -= OnSFXVolumeChanged;
+  }
+
+  void OnSFXVolumeChanged(float volume)
+  {
+    audioSource.volume = volume;
   }
 
   // Update is called once per frame
@@ -46,6 +67,7 @@ public class HomingRocketModule : MonoBehaviour, IUpgradable
     {
       if (target != null && Random.Range(0, 100) < chanceToFire)
       {
+        audioSource.Play();
         HomingProjectile projectile = ObjectPooler.instance.GetPooledObject(bulletPrefab.gameObject, shootPosition.position, shootPosition.rotation).GetComponent<HomingProjectile>();
         projectile.SetTarget(target.transform);
         projectile.damage = baseDamage;

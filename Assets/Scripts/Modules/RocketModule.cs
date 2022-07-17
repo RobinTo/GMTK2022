@@ -26,10 +26,30 @@ public class RocketModule : MonoBehaviour, IUpgradable
   [SerializeField]
   List<UpgradeCosts> baseUpgradeCosts;
 
+  [Header("Sounds")]
+  [SerializeField]
+  AudioClip shootSound;
+  AudioSource audioSource;
+
   // Start is called before the first frame update
   void Start()
   {
+    audioSource = gameObject.AddComponent<AudioSource>();
+    audioSource.clip = shootSound;
+    audioSource.playOnAwake = false;
+    audioSource.volume = SettingsManager.instance.sfxVolume;
 
+    AudioManager.instance.OnSFXVolumeChanged += OnSFXVolumeChanged;
+  }
+
+  void OnDestroy()
+  {
+    AudioManager.instance.OnSFXVolumeChanged -= OnSFXVolumeChanged;
+  }
+
+  void OnSFXVolumeChanged(float volume)
+  {
+    audioSource.volume = volume;
   }
 
   // Update is called once per frame
@@ -50,7 +70,9 @@ public class RocketModule : MonoBehaviour, IUpgradable
     {
       if (target != null && Random.Range(0, 100) < chanceToFire)
       {
+        audioSource.Play();
         Projectile projectile = ObjectPooler.instance.GetPooledObject(bulletPrefab.gameObject, shootPosition.position, shootPosition.rotation).GetComponent<Projectile>();
+        projectile.ResetTTL();
         projectile.damage = baseDamage;
         projectile.onHit = OnProjectileHit;
         projectile.onFadeAway += OnProjectileHit;

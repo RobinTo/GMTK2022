@@ -28,7 +28,7 @@ public class AsteroidsSpawner : MonoBehaviour
   float timer = 0;
   float increaseChanceTimer = 0;
   [SerializeField]
-  float increaseChanceInterval = 60;
+  float increaseChanceInterval = 30;
 
   [Header("Spawn Chances")]
   [SerializeField]

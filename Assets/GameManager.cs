@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour
   public bool GameOn = true;
 
   public UnityEvent OnGameOver;
+  [SerializeField]
+  TMP_Text scoreText;
 
   void Awake()
   {
@@ -44,6 +47,7 @@ public class GameManager : MonoBehaviour
   {
     GameOn = false;
     OnGameOver?.Invoke();
+    scoreText.text = "You lived for " + Mathf.FloorToInt(StatTracker.instance.timeAlive) + " seconds";
   }
 
   // Update is called once per frame

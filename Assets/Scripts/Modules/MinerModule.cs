@@ -49,9 +49,22 @@ public class MinerModule : MonoBehaviour, IUpgradable
 
   List<Transform> objectsInRange;
 
+  [SerializeField]
+  CircleCollider2D triggerCollider;
+
+  [Header("Sounds")]
+  [SerializeField]
+  AudioClip lootSound;
+  AudioSource audioSource;
+
   // Start is called before the first frame update
   void Start()
   {
+    audioSource = gameObject.AddComponent<AudioSource>();
+    audioSource.clip = lootSound;
+    audioSource.playOnAwake = false;
+    audioSource.volume = SettingsManager.instance.sfxVolume;
+
     objectsInRange = new List<Transform>();
     mainCamera = Camera.main;
     uiCanvas = GameObject.FindGameObjectWithTag("UIHealthbarParent").transform;
@@ -63,6 +76,18 @@ public class MinerModule : MonoBehaviour, IUpgradable
     SpaceShipModule module = transform.root.GetComponent<SpaceShipModule>();
     Debug.Log("Subscribing to destruction of " + module.name);
     module.OnModuleDestroyed += UnparentAsteroidTarget;
+
+    AudioManager.instance.OnSFXVolumeChanged += OnSFXVolumeChanged;
+  }
+
+  void OnDestroy()
+  {
+    AudioManager.instance.OnSFXVolumeChanged -= OnSFXVolumeChanged;
+  }
+
+  void OnSFXVolumeChanged(float volume)
+  {
+    audioSource.volume = volume;
   }
 
   Vector3 TargetPositionWithOffset()
@@ -122,6 +147,7 @@ public class MinerModule : MonoBehaviour, IUpgradable
         {
           if (targetAsteroid != null)
           {
+            audioSource.Play();
             foreach (ResourceCost r in targetAsteroid.Resources)
             {
               ResourceManager.instance.ModifyResource(r.resource, r.amount);
@@ -232,6 +258,7 @@ public class MinerModule : MonoBehaviour, IUpgradable
     level++;
     maxResourcePerMine++;
     speedModifier *= 2;
+    triggerCollider.radius *= 1.5f;
 
     if (level == 1)
     {

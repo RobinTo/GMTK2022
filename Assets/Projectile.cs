@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
   float speed = 10f;
   public int damage = 1;
 
-  float ttl = 0;
+  public float ttl = 0;
 
   public delegate void OnHit(Projectile obj);
   public OnHit onHit; // To return to object pool, play explosion, etc.
@@ -25,9 +25,14 @@ public class Projectile : MonoBehaviour
 
   }
 
-  void OnEnable()
+  public void ResetTTL()
   {
     ttl = maxTtl;
+  }
+
+  void OnEnable()
+  {
+    ResetTTL();
   }
 
   // Update is called once per frame
