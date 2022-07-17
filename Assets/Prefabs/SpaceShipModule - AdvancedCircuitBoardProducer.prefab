@@ -1,0 +1,220 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6540700010968773912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6334347680261147191}
+  - component: {fileID: 8511534720845592405}
+  m_Layer: 0
+  m_Name: circuitboard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6334347680261147191
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6540700010968773912}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6483892222407871096}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &8511534720845592405
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6540700010968773912}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: f3ea3e0f30cf8c64bb4404012fd87c3b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.5, y: 0.5}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1001 &2256957326101195195
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 21300000, guid: f3ea3e0f30cf8c64bb4404012fd87c3b, type: 3}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: title
+      value: Advanced Circuit Producer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: health
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BuildingId
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: description
+      value: Uses resources to produce advanced circuit boards.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BaseCost.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BaseCost.Array.data[0].amount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BaseCost.Array.data[1].amount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BaseCost.Array.data[1].resource
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230607, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: m_Name
+      value: SpaceShipModule - AdvancedCircuitBoardProducer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+--- !u!1 &6483892222407871092 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5091665885596230607, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+  m_PrefabInstance: {fileID: 2256957326101195195}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &686756318993988648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6483892222407871092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a3cc401def5ec340a575448bdc30bb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progressbarPrefab: {fileID: 3407589235779535130, guid: c3d653b7ca7802346be74e7073bfa969, type: 3}
+  progressbarOffset: 0.4
+  timeToProduce: 15
+  chanceToFail: 5
+  resourceToProduce: 5
+  minAmount: 1
+  maxAmount: 1
+  requiresResources:
+  - resource: 2
+    amount: 5
+  - resource: 3
+    amount: 1
+  - resource: 4
+    amount: 1
+  baseUpgradeCosts: []
+--- !u!4 &6483892222407871096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+  m_PrefabInstance: {fileID: 2256957326101195195}
+  m_PrefabAsset: {fileID: 0}

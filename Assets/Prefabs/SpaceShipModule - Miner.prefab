@@ -160,7 +160,7 @@ MonoBehaviour:
   target: {fileID: 0}
   targetAsteroid: {fileID: 0}
   moving: 0
-  speedModifier: 0.5
+  speedModifier: 1
   resourceDistribution:
     serializedVersion: 2
     m_Curve:
@@ -439,6 +439,18 @@ PrefabInstance:
     - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: title
       value: Miner Module
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: health
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BuildingId
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: description

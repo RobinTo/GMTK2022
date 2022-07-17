@@ -25,7 +25,7 @@ public class ObjectPooler : MonoBehaviour
     }
     if (parent)
     {
-      obj.transform.parent = parent;
+      obj.transform.SetParent(parent);
     }
     obj.transform.position = position;
     obj.transform.rotation = rotation;

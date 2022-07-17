@@ -112,14 +112,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc506f325eb8027428cc647755960804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BuildingId: 5
   healthbar: {fileID: 3407589235779535130, guid: baa0c048da131134092ca4bc0428549f, type: 3}
   healthbarOffset: 1.2
   maxHealth: 10
   health: 10
-  title: 
-  description: 
-  icon: {fileID: 0}
-  moduleConnectionPrefab: {fileID: 0}
+  title: Space Ship Brain
+  description: The brain of your space ship.
+  icon: {fileID: 21300000, guid: a3c6bbad3ad36e34aad37203d9ad5ea0, type: 3}
+  moduleConnectionPrefab: {fileID: 5432699906465506279, guid: 9fb7be9d99471574c8245bc6172a1069, type: 3}
+  maxConnections: 1000
 --- !u!58 &5677657478319041478
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -65,6 +65,18 @@ MonoBehaviour:
   animator: {fileID: 1402383082195213058}
   cooldown: 0.5
   chanceToShieldOnEnter: 100
+  baseUpgradeCosts:
+  - costs:
+    - resource: 1
+      amount: 20
+    - resource: 0
+      amount: 50
+  - costs:
+    - resource: 1
+      amount: 40
+    - resource: 0
+      amount: 100
+  shieldCollider: {fileID: 0}
 --- !u!1 &7678755395459238320
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,6 +196,18 @@ PrefabInstance:
     - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: title
       value: Shield Module
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: health
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BuildingId
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: description

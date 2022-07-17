@@ -15,8 +15,10 @@ public class TextPanel : MonoBehaviour
 
   public delegate void OnTextFinished();
   public OnTextFinished onTextFinished;
+  public OnTextFinished onFullTextShowing;
 
   Coroutine textCoroutine;
+  float timer = 0;
 
   void Awake()
   {
@@ -37,6 +39,7 @@ public class TextPanel : MonoBehaviour
     textCoroutine = StartCoroutine(ShowTextCoroutine(text));
     done = false;
     fullText = text;
+    timer = 0;
   }
 
   public void Hide()
@@ -52,19 +55,21 @@ public class TextPanel : MonoBehaviour
 
   void Update()
   {
-    if (done && Input.GetKeyDown(KeyCode.Space))
+    if (done)
     {
-      onTextFinished?.Invoke();
+      timer += Time.deltaTime;
+      if ((Input.GetKeyDown(KeyCode.Space) || timer >= 10))
+      {
+        onTextFinished?.Invoke();
+      }
     }
     else if (Input.GetKeyDown(KeyCode.Space))
     {
       Debug.Log("Keycode down space");
-      if (!done)
-      {
-        StopCoroutine(textCoroutine);
-        text.text = fullText;
-        done = true;
-      }
+      StopCoroutine(textCoroutine);
+      text.text = fullText;
+      done = true;
+      onFullTextShowing?.Invoke();
     }
   }
 
@@ -75,6 +80,7 @@ public class TextPanel : MonoBehaviour
       this.text.text += c;
       yield return new WaitForSeconds(0.05f);
     }
+    onFullTextShowing?.Invoke();
     done = true;
   }
 }

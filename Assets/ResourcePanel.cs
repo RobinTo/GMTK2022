@@ -9,6 +9,9 @@ public enum Resource
   Iron,
   Gold,
   Diamond,
+  CircuitBoard,
+  AdvancedCircuitBoard,
+  Wires
 }
 
 public class ResourcePanel : MonoBehaviour

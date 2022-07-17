@@ -26,7 +26,7 @@ public class Asteroid : MonoBehaviour
     IsGrabbed = false;
     transform.parent = null;
     // Set a random velocity
-    velocity = new Vector3(Random.Range(minSpeed, maxSpeed), Random.Range(minSpeed, maxSpeed), 0);
+    velocity = new Vector3(Random.Range(minSpeed, -.5f), Random.Range(minSpeed, maxSpeed), 0);
 
     // Set a random rotation
     transform.Rotate(0, 0, Random.Range(0f, 360f));

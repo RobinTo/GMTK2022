@@ -100,6 +100,18 @@ PrefabInstance:
       value: Repair Module
       objectReference: {fileID: 0}
     - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: health
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BuildingId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: description
       value: This module randomly repairs modules with a direct connection to it.
       objectReference: {fileID: 0}

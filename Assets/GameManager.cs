@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +16,10 @@ public class GameManager : MonoBehaviour
       return enemies;
     }
   }
+
+  public bool GameOn = true;
+
+  public UnityEvent OnGameOver;
 
   void Awake()
   {
@@ -31,12 +37,25 @@ public class GameManager : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    SpaceShipBrain.instance.GetComponent<SpaceShipModule>().OnModuleDestroyed += EndGame;
+  }
+
+  void EndGame(SpaceShipModule module)
+  {
+    GameOn = false;
+    OnGameOver?.Invoke();
   }
 
   // Update is called once per frame
   void Update()
   {
-
+    if (!GameOn)
+    {
+      if (Input.GetKeyDown(KeyCode.R))
+      {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+      }
+    }
   }
 
   public void AddEnemy(Enemy enemy)

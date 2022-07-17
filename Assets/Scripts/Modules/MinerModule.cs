@@ -54,11 +54,15 @@ public class MinerModule : MonoBehaviour, IUpgradable
   {
     objectsInRange = new List<Transform>();
     mainCamera = Camera.main;
-    uiCanvas = GameObject.FindGameObjectWithTag("UICanvas").transform;
+    uiCanvas = GameObject.FindGameObjectWithTag("UIHealthbarParent").transform;
     mineLine.SetPositions(new Vector3[] { transform.position, transform.position + Vector3.up + Vector3.right * .25f, transform.position + Vector3.right * .5f });
     grab.transform.position = transform.position + Vector3.right * .5f;
 
     availableResource = new List<Resource>() { Resource.Wood };
+
+    SpaceShipModule module = transform.root.GetComponent<SpaceShipModule>();
+    Debug.Log("Subscribing to destruction of " + module.name);
+    module.OnModuleDestroyed += UnparentAsteroidTarget;
   }
 
   Vector3 TargetPositionWithOffset()
@@ -240,6 +244,16 @@ public class MinerModule : MonoBehaviour, IUpgradable
     if (level == 3)
     {
       availableResource.Add(Resource.Diamond);
+    }
+  }
+
+  void UnparentAsteroidTarget(SpaceShipModule module)
+  {
+    Debug.Log("Trying to clear parent on destruction");
+    for (int i = grab.transform.childCount - 1; i >= 0; i--)
+    {
+      Transform child = grab.transform.GetChild(i);
+      child.SetParent(null);
     }
   }
 

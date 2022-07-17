@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - UICanvas
   - Asteroid
+  - UIHealthbarParent
   layers:
   - Default
   - TransparentFX

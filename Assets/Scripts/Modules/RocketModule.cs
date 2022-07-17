@@ -50,7 +50,6 @@ public class RocketModule : MonoBehaviour, IUpgradable
     {
       if (target != null && Random.Range(0, 100) < chanceToFire)
       {
-        Debug.Log("Fire projectile!");
         Projectile projectile = ObjectPooler.instance.GetPooledObject(bulletPrefab.gameObject, shootPosition.position, shootPosition.rotation).GetComponent<Projectile>();
         projectile.damage = baseDamage;
         projectile.onHit = OnProjectileHit;

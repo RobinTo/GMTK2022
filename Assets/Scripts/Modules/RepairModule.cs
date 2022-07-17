@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepairModule : MonoBehaviour
+public class RepairModule : MonoBehaviour, IUpgradable
 {
   SpaceShipModule spaceshipModule;
 
@@ -15,6 +15,11 @@ public class RepairModule : MonoBehaviour
   float repairChance = 10;
   [SerializeField]
   int repairAmount = 1;
+
+  int level = 0;
+
+  [SerializeField]
+  List<UpgradeCosts> baseUpgradeCosts;
 
   // Start is called before the first frame update
   void Start()
@@ -41,6 +46,33 @@ public class RepairModule : MonoBehaviour
         timer = 0;
         break;
       }
+    }
+
+  }
+
+  public void Upgrade()
+  {
+    level++;
+    repairChance += 5;
+    if (level % 3 == 0) repairAmount++;
+    repairInterval -= repairInterval / 10;
+  }
+
+  public List<ResourceCost> GetCost()
+  {
+    if (baseUpgradeCosts.Count > level)
+    {
+      return baseUpgradeCosts[level].costs;
+    }
+    else
+    {
+      List<ResourceCost> cost = new List<ResourceCost>();
+      List<ResourceCost> lastResourceCost = baseUpgradeCosts[baseUpgradeCosts.Count - 1].costs;
+      for (int i = 0; i < lastResourceCost.Count; i++)
+      {
+        cost.Add(new ResourceCost(lastResourceCost[i].resource, lastResourceCost[i].amount * level));
+      }
+      return cost;
     }
 
   }

@@ -6,12 +6,16 @@ using UnityEngine;
 public class StoryTextManager : MonoBehaviour
 {
   int currentStep = 0;
-  string welcomeMessage = "Good morning Captain. You have been asleep for 7 years, space ship status is: mostly ruined.";
+  string welcomeMessage = "Good morning Captain. You have been asleep for 7 years, space ship status: mostly ruined.";
   string welcomeMessage2 = "We currently have enough resources to build a module. I suggest buying a mining module to try establishing a supply of resources.";
-  string welcomeMessage3 = "You can access information and spend resources to upgrade your modules by clicking on them. Upgrading them will increase their resilience.";
-  string welcomeMessage4 = "We should gather resources for our next modules. Lets try saving up for a shield and rocket module to get some defenses up and running.";
+  string welcomeMessage3 = "You can access information and spend resources to upgrade your modules by clicking on them. Upgrading them will increase their effectiveness. Consider upgrading your miner.";
+  string welcomeMessage4 = "I found the schematics for a shield and rocket module, lets try to get some defenses up and running.";
+  string welcomeMessage5 = "We looted some schematics from that ship. Check them out in the building menu. I have set aside some of the looted resources to build a circuit producer, try building one now.";
+  string bossMessage = "Wow, that ship contained some rare schematics, take a look at our new modules in your building menu!";
 
   float timer = 0;
+
+  bool firstEnemyDestroyed = false;
 
 
   void Start()
@@ -31,6 +35,27 @@ public class StoryTextManager : MonoBehaviour
         };
       };
     };
+    Enemy.OnEnemyDestroyed += (Enemy e) =>
+    {
+      if (e.isBoss)
+      {
+        ShowNextBossMessage();
+        return;
+      }
+      if (firstEnemyDestroyed) return;
+
+      BuildingManager.instance.SetFree(BuildingId.CircuitProducer);
+      BuildingManager.instance.UnlockBuilding(BuildingId.CircuitProducer);
+      BuildingManager.instance.UnlockBuilding(BuildingId.Repair);
+      firstEnemyDestroyed = true;
+      TextPanel.instance.ShowText(welcomeMessage5);
+      TextPanel.instance.onTextFinished = () =>
+      {
+        TextPanel.instance.Hide();
+        currentStep = 4;
+        timer = 0;
+      };
+    };
   }
 
   void Update()
@@ -41,13 +66,38 @@ public class StoryTextManager : MonoBehaviour
     {
       currentStep = 2;
       TextPanel.instance.ShowText(welcomeMessage4);
+      BuildingManager.instance.UnlockBuilding(BuildingId.Shield);
+      BuildingManager.instance.UnlockBuilding(BuildingId.Rocket);
+      TextPanel.instance.onFullTextShowing = () =>
+      {
+        EnemySpawner.instance.SetActive(true);
+      };
       TextPanel.instance.onTextFinished = () =>
       {
         TextPanel.instance.Hide();
         currentStep = 3;
         timer = 0;
-        EnemySpawner.instance.SetActive(true);
       };
     }
+
+    if (currentStep == 4 && timer > 60)
+    {
+      EnemySpawner.instance.TriggerBossSpawn(30);
+      currentStep = 5;
+    }
+  }
+
+  void ShowNextBossMessage()
+  {
+    TextPanel.instance.ShowText(bossMessage);
+    AsteroidsSpawner.instance.IncreaseChancesAfterBoss();
+    BuildingManager.instance.UnlockBuilding(BuildingId.AdvancedCircuitProducer);
+    BuildingManager.instance.UnlockBuilding(BuildingId.HomingRocket);
+    BuildingManager.instance.UnlockBuilding(BuildingId.PassiveMiner);
+    TextPanel.instance.onTextFinished = () =>
+    {
+      TextPanel.instance.Hide();
+      timer = 0;
+    };
   }
 }

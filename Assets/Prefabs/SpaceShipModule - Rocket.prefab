@@ -132,6 +132,18 @@ PrefabInstance:
       value: Rocket Module
       objectReference: {fileID: 0}
     - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: health
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
+      propertyPath: BuildingId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091665885596230593, guid: 0f32e74c31395884d82227b8b298256a, type: 3}
       propertyPath: description
       value: Has a chance to fire a rocket at nearby enemies.
       objectReference: {fileID: 0}
@@ -228,29 +240,15 @@ MonoBehaviour:
   timer: 0
   baseUpgradeCosts:
   - costs:
-    - resource: 0
-      amount: 25
-  - costs:
+    - resource: 1
+      amount: 20
     - resource: 0
       amount: 50
-    - resource: 1
-      amount: 10
   - costs:
+    - resource: 1
+      amount: 40
     - resource: 0
       amount: 100
-    - resource: 1
-      amount: 50
-    - resource: 2
-      amount: 10
-  - costs:
-    - resource: 0
-      amount: 150
-    - resource: 1
-      amount: 75
-    - resource: 2
-      amount: 50
-    - resource: 3
-      amount: 3
 --- !u!4 &6483892222407871096 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5091665885596230595, guid: 0f32e74c31395884d82227b8b298256a, type: 3}

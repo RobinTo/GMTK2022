@@ -24,6 +24,11 @@ public class EnemySpawner : MonoBehaviour
   [SerializeField]
   Transform tempSpawnPosition;
 
+  [SerializeField]
+  GameObject bossEnemy;
+  bool spawningBoss = false;
+  float bossTimer = 0;
+
   float timer = 0;
 
   bool active = false;
@@ -33,6 +38,9 @@ public class EnemySpawner : MonoBehaviour
   [SerializeField]
   int numberOfEnemies = 1;
   float spawnTimer = 0;
+
+  [SerializeField]
+  float initialWaitTime = 30;
 
   void Awake()
   {
@@ -57,10 +65,33 @@ public class EnemySpawner : MonoBehaviour
     active = value;
   }
 
+  public void TriggerBossSpawn(float time)
+  {
+    spawningBoss = true;
+    bossTimer = time;
+  }
+
   // Update is called once per frame
   void Update()
   {
-    if (!active) return;
+    if (!active || !GameManager.instance.GameOn) return;
+    if (initialWaitTime > 0)
+    {
+      initialWaitTime -= Time.deltaTime;
+      return;
+    }
+
+    if (spawningBoss)
+    {
+      bossTimer -= Time.deltaTime;
+      if (bossTimer <= 0)
+      {
+        spawningBoss = false;
+        SpawnBossEnemy();
+      }
+      return;
+    }
+
     timer += Time.deltaTime;
 
     if (timer > spawnInterval)
@@ -69,10 +100,27 @@ public class EnemySpawner : MonoBehaviour
       for (int i = 0; i < numberOfEnemies; i++)
       {
         SpawnEnemy();
+
+        if (spawnInterval > 2 && Random.Range(0, 10) > 8)
+        {
+          spawnInterval -= Random.Range(0f, 1f);
+        }
+        if (Random.Range(0, 100) > 95)
+        {
+          numberOfEnemies += 1;
+        }
       }
     }
   }
+  void SpawnBossEnemy()
+  {
 
+    Vector3 point = Random.insideUnitCircle.normalized;
+    float radius = GetFurthestModuleFromBrain();
+    Vector3 position = new Vector3(point.x * radius, point.y * radius, 0);
+
+    Instantiate(bossEnemy, SpaceShipBrain.instance.transform.position + position, Quaternion.identity);
+  }
   void SpawnEnemy()
   {
     List<GameObject> availableEnemies = new List<GameObject>();
@@ -87,7 +135,25 @@ public class EnemySpawner : MonoBehaviour
     if (availableEnemies.Count > 0)
     {
       int index = Random.Range(0, availableEnemies.Count);
-      Instantiate(availableEnemies[index], tempSpawnPosition.position, Quaternion.identity);
+
+      Vector3 point = Random.insideUnitCircle.normalized;
+      float radius = GetFurthestModuleFromBrain();
+      Vector3 position = new Vector3(point.x * radius, point.y * radius, 0);
+
+      Instantiate(availableEnemies[index], SpaceShipBrain.instance.transform.position + position, Quaternion.identity);
     }
+  }
+  float GetFurthestModuleFromBrain()
+  {
+    float furthest = 0;
+    foreach (SpaceShipModule module in SpaceShipController.instance.Modules)
+    {
+      float distance = Vector3.Distance(SpaceShipBrain.instance.transform.position, module.transform.position);
+      if (distance > furthest)
+      {
+        furthest = distance;
+      }
+    }
+    return furthest > 8 ? furthest : 8;
   }
 }

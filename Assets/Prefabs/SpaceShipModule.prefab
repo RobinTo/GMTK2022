@@ -99,14 +99,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc506f325eb8027428cc647755960804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BuildingId: 0
   healthbar: {fileID: 3407589235779535130, guid: baa0c048da131134092ca4bc0428549f, type: 3}
   healthbarOffset: 0.7
-  maxHealth: 10
-  health: 10
+  maxHealth: 20
+  health: 20
   title: Empty Module
   description: It's an empty space ship module.
   icon: {fileID: 21300000, guid: 9841af34ad75d654b8dedc709f9fd374, type: 3}
   moduleConnectionPrefab: {fileID: 5432699906465506279, guid: 9fb7be9d99471574c8245bc6172a1069, type: 3}
+  maxConnections: 3
 --- !u!58 &5091665885596230597
 CircleCollider2D:
   m_ObjectHideFlags: 0

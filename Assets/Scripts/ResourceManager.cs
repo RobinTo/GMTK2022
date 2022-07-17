@@ -28,8 +28,9 @@ public class ResourceManager : MonoBehaviour
   void Start()
   {
 
-    ModifyResource(Resource.Wood, 30);
-    ModifyResource(Resource.Iron, 30);
+    ModifyResource(Resource.Wood, 35);
+    ModifyResource(Resource.Iron, 15);
+    ModifyResource(Resource.CircuitBoard, 5);
   }
 
   public int GetResourceAmount(Resource resource)
@@ -84,6 +85,10 @@ public class ResourceManager : MonoBehaviour
         return Resources.Load<Sprite>("gold");
       case Resource.Diamond:
         return Resources.Load<Sprite>("diamond");
+      case Resource.CircuitBoard:
+        return Resources.Load<Sprite>("circuitboard");
+      case Resource.AdvancedCircuitBoard:
+        return Resources.Load<Sprite>("circuitboardadvanced");
     }
     return null;
 

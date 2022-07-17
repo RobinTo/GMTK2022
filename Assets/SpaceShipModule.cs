@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
 {
 
+  public BuildingId BuildingId;
   [SerializeField]
   GameObject healthbar;
   [SerializeField]
@@ -18,7 +19,7 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
   public int health = 10;
 
   Camera mainCamera;
-  Transform uiCanvas;
+  Transform healthbarParent;
 
   [Header("Module data")]
   [SerializeField]
@@ -31,13 +32,13 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
   [SerializeField]
   ModuleConnection moduleConnectionPrefab;
 
-  [SerializeField]
-  public List<ResourceCost> BaseCost;
-
   List<SpaceShipModule> connectedModules;
   public List<SpaceShipModule> ConnectedModules { get { return connectedModules; } }
 
   public Action<SpaceShipModule> OnModuleDestroyed;
+
+  [SerializeField]
+  int maxConnections = 3;
 
   public void Damage(int damage)
   {
@@ -65,7 +66,7 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
   void Start()
   {
     mainCamera = Camera.main;
-    uiCanvas = GameObject.FindGameObjectWithTag("UICanvas").transform;
+    healthbarParent = GameObject.FindGameObjectWithTag("UIHealthbarParent").transform;
 
     // Could potentially be instantiated when creating initial connections when having modules in scene.
     if (connectedModules == null)
@@ -86,7 +87,7 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
     float closestDistance = Vector3.Distance(transform.position, closest.transform.position);
     foreach (var module in SpaceShipController.instance.Modules)
     {
-      if (module == this) continue;
+      if (module == this || module.HasReachedMaxConnections()) continue;
       float distance = Vector3.Distance(transform.position, module.transform.position);
       if (distance < closestDistance)
       {
@@ -105,8 +106,9 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
       if (currentHealthbar == null)
       {
         Vector3 position = mainCamera.WorldToScreenPoint(transform.position + Vector3.down * healthbarOffset);
-        currentHealthbar = ObjectPooler.instance.GetPooledObject(healthbar, position, Quaternion.identity, uiCanvas).GetComponent<Healthbar>();
+        currentHealthbar = ObjectPooler.instance.GetPooledObject(healthbar, position, Quaternion.identity, healthbarParent).GetComponent<Healthbar>();
       }
+      currentHealthbar.transform.position = mainCamera.WorldToScreenPoint(transform.position + Vector3.down * healthbarOffset);
       currentHealthbar.SetHealth(health, maxHealth);
     }
     else if (currentHealthbar)
@@ -115,8 +117,18 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
     }
   }
 
+  public bool HasReachedMaxConnections()
+  {
+    return connectedModules.Count >= maxConnections;
+  }
+
   public void CreateModuleConnection(SpaceShipModule moduleB)
   {
+    if (HasReachedMaxConnections() || moduleB.HasReachedMaxConnections())
+    {
+      Debug.Log("Max connections reached");
+      return;
+    }
     ModuleConnection connection = Instantiate(moduleConnectionPrefab, transform);
     connection.Connect(this, moduleB);
     this.AddModuleConnection(moduleB);
@@ -160,7 +172,7 @@ public class SpaceShipModule : MonoBehaviour, IHealth, IPointerClickHandler
       {
         costs = upgradeable.GetCost();
       }
-      ModuleDetailsPanel.instance.Open(title, icon, description, costs, upgradeable);
+      ModuleDetailsPanel.instance.Open(title, icon, description, costs, upgradeable, this);
     }
   }
 }
