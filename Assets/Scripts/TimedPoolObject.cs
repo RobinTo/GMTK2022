@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TimedPoolObject : MonoBehaviour, ITimedPoolObject
 {
-  float timer = 0;
+  public float timer = 0;
   GameObject prefab;
 
   public void ReturnAfter(GameObject prefab, float time)

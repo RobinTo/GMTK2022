@@ -75,8 +75,8 @@ public class RocketModule : MonoBehaviour, IUpgradable
         projectile.ResetTTL();
         projectile.damage = baseDamage;
         projectile.onHit = OnProjectileHit;
-        projectile.onFadeAway += OnProjectileHit;
-        projectile.onGotShielded += OnProjectileShielded;
+        projectile.onFadeAway = OnProjectileHit;
+        projectile.onGotShielded = OnProjectileShielded;
       }
       timer = 0;
     }

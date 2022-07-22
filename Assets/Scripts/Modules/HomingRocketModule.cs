@@ -72,8 +72,8 @@ public class HomingRocketModule : MonoBehaviour, IUpgradable
         projectile.SetTarget(target.transform);
         projectile.damage = baseDamage;
         projectile.onHit = OnProjectileHit;
-        projectile.onFadeAway += OnProjectileHit;
-        projectile.onGotShielded += OnProjectileShielded;
+        projectile.onFadeAway = OnProjectileHit;
+        projectile.onGotShielded = OnProjectileShielded;
       }
       timer = 0;
     }

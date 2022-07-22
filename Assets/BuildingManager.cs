@@ -197,7 +197,7 @@ public class BuildingManager : MonoBehaviour
               mainCamera.ScreenToWorldPoint(Input.mousePosition)
           });
     }
-    else
+    else if (moduleA != null)
     {
       moduleA.CreateModuleConnection(module);
       buildingConnection = false;
