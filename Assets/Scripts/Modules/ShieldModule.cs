@@ -73,7 +73,7 @@ public class ShieldModule : MonoBehaviour, IUpgradable
   {
     level++;
     shieldCollider.radius += shieldCollider.radius / 5;
-    chanceToShieldOnEnter += 5;
+    chanceToShieldOnEnter += 10;
     cooldown -= cooldown / 10;
   }
 

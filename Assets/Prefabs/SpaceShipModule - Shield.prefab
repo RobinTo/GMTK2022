@@ -64,7 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1402383082195213058}
   cooldown: 0.5
-  chanceToShieldOnEnter: 100
+  chanceToShieldOnEnter: 40
   baseUpgradeCosts:
   - costs:
     - resource: 1

@@ -124,7 +124,7 @@ public class EnemySpawner : MonoBehaviour
   {
 
     Vector3 point = Random.insideUnitCircle.normalized;
-    float radius = GetFurthestModuleFromBrain();
+    float radius = GetFurthestModuleFromBrain() * 3;
     Vector3 position = new Vector3(point.x * radius, point.y * radius, 0);
 
     Instantiate(bossEnemy, SpaceShipBrain.instance.transform.position + position, Quaternion.identity);
@@ -145,7 +145,7 @@ public class EnemySpawner : MonoBehaviour
       int index = Random.Range(0, availableEnemies.Count);
 
       Vector3 point = Random.insideUnitCircle.normalized;
-      float radius = GetFurthestModuleFromBrain();
+      float radius = GetFurthestModuleFromBrain() * 3;
       Vector3 position = new Vector3(point.x * radius, point.y * radius, 0);
 
       Instantiate(availableEnemies[index], SpaceShipBrain.instance.transform.position + position, Quaternion.identity);

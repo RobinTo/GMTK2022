@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 341e542200351624fb8823da5cc0bf62, type: 3}
+  m_Name: AdvancedCircuitProducer
+  m_EditorClassIdentifier: 
+  buildingId: 7
+  sprite: {fileID: 21300000, guid: f3ea3e0f30cf8c64bb4404012fd87c3b, type: 3}
+  moduleName: Advabced Circuit Producer
+  moduleDescription: Produces advanced circuit boards.
+  cost:
+  - resource: 4
+    amount: 3
+  - resource: 3
+    amount: 1
+  - resource: 2
+    amount: 10
+  baseUpgradeCosts:
+  - costs:
+    - resource: 3
+      amount: 1
+    - resource: 5
+      amount: 1
+  - costs:
+    - resource: 3
+      amount: 3
+    - resource: 5
+      amount: 1
+    - resource: 2
+      amount: 10
+  - costs:
+    - resource: 3
+      amount: 10
+    - resource: 5
+      amount: 3
+    - resource: 2
+      amount: 20
+  prefab: {fileID: 6483892222407871092, guid: 538cae1a179f1a14d8b26838346ed0f9, type: 3}

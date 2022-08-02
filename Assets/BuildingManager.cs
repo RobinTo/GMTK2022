@@ -52,13 +52,16 @@ public class BuildingManager : MonoBehaviour
   float maxConnectionDistance = 4;
 
   [SerializeField]
-  public List<BuildingBuyButton> buildingBuyButtons;
-  [SerializeField]
   ImageAndTextUIElement buildingCostPrefab;
+  [SerializeField]
+  BuyModuleButton buildingBuyButtonPrefab;
+  [SerializeField]
+  Transform buildNewModuleShopPanel;
 
   public List<BuildingId> UnlockedBuildings;
 
   bool building = false;
+  ModuleSO buildingModuleSO;
   BuildingId buildingBuildingId;
   GameObject buildingObject;
   List<ResourceCost> buildingCost;
@@ -158,32 +161,23 @@ public class BuildingManager : MonoBehaviour
     }
   }
 
-  public void StartBuild(GameObject gameObject)
+  public void StartBuild(ModuleSO toBuild)
   {
-    SpaceShipModule module = gameObject.GetComponent<SpaceShipModule>();
-    BuildingBuyButton toBuild = buildingBuyButtons.Find(x => x.buildingId == module.BuildingId);
-
-    if (!ResourceManager.instance.CanAfford(toBuild.cost) && !freeBuildings.Contains(module.BuildingId))
-    {
-      return;
-    }
-    buildingBuildingId = module.BuildingId;
+    buildingModuleSO = toBuild;
+    buildingBuildingId = toBuild.buildingId;
     preview.gameObject.SetActive(true);
     building = true;
     buildingObject = toBuild.prefab;
     buildingCost = toBuild.cost;
   }
 
-  public void StartBuildingConnection()
+  public void StartBuildingConnection(ModuleSO connection)
   {
-    BuildingBuyButton toBuild = buildingBuyButtons.Find(x => x.buildingId == BuildingId.Connection);
-    if (ResourceManager.instance.CanAfford(toBuild.cost))
-    {
-      buildingBuildingId = BuildingId.Connection;
-      buildingCost = toBuild.cost;
-      buildingConnection = true;
-      moduleA = null;
-    }
+    buildingModuleSO = connection;
+    buildingBuildingId = BuildingId.Connection;
+    buildingCost = connection.cost;
+    buildingConnection = true;
+    moduleA = null;
   }
 
   public void ModuleClicked(SpaceShipModule module)
@@ -215,18 +209,58 @@ public class BuildingManager : MonoBehaviour
 
   public void UpdateUnlockedBuildings()
   {
-    foreach (BuildingBuyButton btn in buildingBuyButtons)
+    for (int i = buildNewModuleShopPanel.childCount - 1; i >= 0; i--)
     {
-      btn.button.SetActive(UnlockedBuildings.Contains(btn.buildingId));
-
-      for (int i = btn.costContainer.childCount - 1; i >= 0; i--)
+      if (buildNewModuleShopPanel.GetChild(i).name != "CloseButton")
+        Destroy(buildNewModuleShopPanel.GetChild(i).gameObject);
+    }
+    foreach (BuildingId buildingId in UnlockedBuildings)
+    {
+      ModuleSO moduleSO = ModuleSODatabase.instance.GetModuleSO(buildingId);
+      if (moduleSO == null)
       {
-        Destroy(btn.costContainer.GetChild(i).gameObject);
+        Debug.Log("No building data found for " + buildingId);
+        continue;
       }
 
-      foreach (ResourceCost cost in btn.cost)
+      BuyModuleButton buyButton = Instantiate(buildingBuyButtonPrefab, buildNewModuleShopPanel);
+      buyButton.SetData(moduleSO);
+      if (moduleSO.buildingId == BuildingId.Connection)
       {
-        ImageAndTextUIElement element = Instantiate(buildingCostPrefab, btn.costContainer);
+        buyButton.button.onClick.AddListener(() =>
+        {
+          if (!ResourceManager.instance.CanAfford(moduleSO.cost) && !freeBuildings.Contains(moduleSO.buildingId))
+          {
+            // TODO: Play error sound
+            return;
+          }
+          StartBuildingConnection(moduleSO);
+          buildNewModuleShopPanel.gameObject.SetActive(false);
+        });
+      }
+      else
+      {
+        buyButton.button.onClick.AddListener(() =>
+        {
+          if (!ResourceManager.instance.CanAfford(moduleSO.cost) && !freeBuildings.Contains(moduleSO.buildingId))
+          {
+            // TODO: Play error sound
+            return;
+          }
+          StartBuild(moduleSO);
+          buildNewModuleShopPanel.gameObject.SetActive(false);
+        });
+      }
+
+      for (int i = buyButton.costContainer.childCount - 1; i >= 0; i--)
+      {
+        Destroy(buyButton.costContainer.GetChild(i).gameObject);
+      }
+
+
+      foreach (ResourceCost cost in moduleSO.cost)
+      {
+        ImageAndTextUIElement element = Instantiate(buildingCostPrefab, buyButton.costContainer);
         element.SetText(cost.amount.ToString());
         element.SetImage(ResourceManager.GetSprite(cost.resource));
       }
